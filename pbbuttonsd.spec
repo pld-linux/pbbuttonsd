@@ -1,14 +1,18 @@
+
+%{!?min_kernel:%define          min_kernel      2.4.18}
+
 Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or TiBook
 Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
-Version:	0.4.8
-Release:	0.2
+Version:	0.5.2
+Release:	1
 License:	GPL
 Group:		Daemons
-Source0:	http://www.cymes.de/members/joker/projects/pbbuttons/tar/%{name}-%{version}.tar.gz
+# http://www.cymes.de/members/joker/projects/pbbuttons/tar/%{name}-%{version}.tar.gz
+Source0:	pbbuttonsd-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconf
-URL:		http://www.cymes.de/members/joker/projects/pbbuttons/pbbuttonsd.html
+URL:		http://www.cymes.de/members/joker/projects/pbbuttons/pbbuttons.html
 BuildRequires:	autoconf
 Prereq:		rc-scripts
 Prereq:		/sbin/chkconfig
@@ -16,7 +20,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	ppc
 
 %define		_sysconfdir	/etc
-%define		_bindir		%{_sbindir}
 
 %description
 With the pbbuttonsd daemon, the keys for the display brightness, the
@@ -32,6 +35,20 @@ Jednocze¶nie ob³uguje niektóre funkcje zarz±dzania energi±, m.in.
 ostrzega o wy³adowaniu baterii, wygasza nieu¿ywany wy¶wietlacz,
 umo¿liwia usypianie komputera na komendê.
 
+%package -n pbbuttonsd-lib
+Summary:        static library libpbb.a
+Summary(pl):    statyczna bibiloteka libpbb.a
+Group:          Development/Libraries
+Requires:       %{name} = %{version}
+
+%description -n pbbuttonsd-lib
+This library is part of the daemon package pbbuttonsd and is 
+available as static library only
+
+%description -n pbbuttonsd-lib -l pl
+Ta biblioteka jest czescia pakietu pbbuttonsd i jest dostepna tylko 
+w wersji statycznej.
+
 %prep
 %setup -q
 
@@ -45,11 +62,13 @@ umo¿liwia usypianie komputera na komendê.
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/%{_sbindir}
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},/etc/{rc.d/init.d,sysconfig},%{_mandir}/{man1,man5}}
+install -d $RPM_BUILD_ROOT/%{_libdir}
 
 install src/pbbuttonsd $RPM_BUILD_ROOT/%{_sbindir}
 install pbbuttonsd.conf $RPM_BUILD_ROOT/%{_sysconfdir}
 install pbbuttonsd.1 $RPM_BUILD_ROOT/%{_mandir}/man1
 install pbbuttonsd.conf.5 $RPM_BUILD_ROOT/%{_mandir}/man5
+install libpbbipc/libpbb.a $RPM_BUILD_ROOT/%{_libdir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pbbuttonsd
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pbbuttonsd
@@ -82,3 +101,8 @@ fi
 %attr(640,root,root) %config %verify(not size md5 mtime) /etc/sysconfig/*
 %{_mandir}/man1/*
 %{_mandir}/man5/*
+
+%files -n pbbuttonsd-lib
+%defattr(644,root,root,755)
+%{_libdir}/*
+ 
