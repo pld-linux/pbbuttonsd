@@ -9,6 +9,7 @@ Release:	1
 License:	GPL
 Group:		Daemons
 Source0:	http://www.cymes.de/members/joker/projects/pbbuttons/tar/%{name}-%{version}.tar.gz
+# Source0-md5:	39e11699dfaa666ca3639184670bba22
 Source1:	%{name}.init
 Source2:	%{name}.sysconf
 Source3:	%{name}-initreq.h
