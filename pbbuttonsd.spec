@@ -1,6 +1,3 @@
-
-%{!?min_kernel:%define          min_kernel      2.4.18}
-
 Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or TiBook
 Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
@@ -9,7 +6,7 @@ Release:	2
 License:	GPL
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/pbbuttons/%{name}-%{version}.tar.gz
-# Source0-md5:	dd578afa5252206db0bdd3054064e9a9
+# Source0-md5:	9dd3e2e41cae5028020947495a97d3e9
 Source1:	%{name}.init
 Source2:	%{name}.sysconf
 Source3:	%{name}-initreq.h
