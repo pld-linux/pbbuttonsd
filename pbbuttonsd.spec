@@ -16,6 +16,7 @@ Source3:	%{name}-initreq.h
 Patch0:		%{name}-c++.patch
 URL:		http://www.cymes.de/members/joker/projects/pbbuttons/pbbuttons.html
 BuildRequires:	autoconf
+BuildRequires:	sed >= 4.0
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Obsoletes:	pmud
