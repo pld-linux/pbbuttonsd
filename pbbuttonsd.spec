@@ -1,5 +1,5 @@
-Summary:	PBButtonsd is a daemon handle the special hotkeys of an Apple iBook, Powerbook or TiBook
-Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook or TiBook
+Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or TiBook
+Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
 Version:	0.4.8
 Release:	1
@@ -16,14 +16,18 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_bindir		%{_sbindir}
 
 %description
-With this daemon, pbbuttonsd the keys for the display brightness, the volume of speaker and headphone, the mute key and the eject key 
-will do their job as expected. The daemon also do some power management tasks including low battery warnings, dimming the display if idle, 
+With the pbbuttonsd daemon, the keys for the display brightness, the
+volume of speaker and headphone, the mute key and the eject key will
+do their job as expected. The daemon also do some power management
+tasks including low battery warnings, dimming the display if idle,
 sleep on command, etc.
 
- %description -l pl
-Pakiet zawiera demona, obs³uguj±cego klawisze specjalne (jasno¶æ wy¶wietlania, g³o¶no¶æ, wyciszanie, wyjmowanie CD).
-Jednocze¶nie ob³uguje niektóre funkcje zarz±dzania energi± m.in. ostrzega o wy³adowaniu baterii, wygasza nieuzywany wy¶wietlacz,
-umo¿liwia "usypianie" komputera na komendê.
+%description -l pl
+Pakiet zawiera demona pbbuttonsd, obs³uguj±cego klawisze specjalne
+(jasno¶æ wy¶wietlania, g³o¶no¶æ, wyciszanie, wyjmowanie CD).
+Jednocze¶nie ob³uguje niektóre funkcje zarz±dzania energi±, m.in.
+ostrzega o wy³adowaniu baterii, wygasza nieu¿ywany wy¶wietlacz,
+umo¿liwia usypianie komputera na komendê.
 
 %prep
 %setup -q
@@ -40,7 +44,6 @@ install -d $RPM_BUILD_ROOT{%{_sysconfdir},/etc/{rc.d/init.d,sysconfig},%{_mandir
 
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
-
 #gzip -9nf NEWS TODO 
 
 %clean
@@ -51,7 +54,7 @@ rm -rf $RPM_BUILD_ROOT
 if [ -f /var/lock/subsys/pbbuttonsd ]; then
 	/etc/rc.d/init.d/pbbuttonsd restart >&2
 else
-	echo "Run \"/etc/rc.d/init.d/pbbuttonsd start\" to start ntp daemon."
+	echo "Run \"/etc/rc.d/init.d/pbbuttonsd start\" to start pbbuttonsd daemon."
 fi
 
 %preun
@@ -68,6 +71,6 @@ fi
 %attr(750,root,root) %dir %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not size md5 mtime) %{_sysconfdir}/*
 %attr(755,root,root) %{_sbindir}/*
-%attr(754,root,root) /etc/rc.d/init.d/ntp
+%attr(754,root,root) /etc/rc.d/init.d/pbbuttonsd
 %attr(640,root,root) %config %verify(not size md5 mtime) /etc/sysconfig/*
 %{_mandir}/man8/*
