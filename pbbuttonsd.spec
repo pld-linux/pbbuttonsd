@@ -48,6 +48,21 @@ available as static library only.
 Ta biblioteka jest czê¶ci± pakietu pbbuttonsd i jest dostêpna tylko
 w wersji statycznej.
 
+%package -n pbbcmd 
+Summary:	Command line tool to communicate with pbbuttonsd
+Summary(pl):	Dzia³aj±ce z linii poleceñ narzêdzie do komunikowania z pbbuttonsd
+Group:		Deamons
+BuildRequires:	autoconf
+Requires:	pbbuttonsd
+
+%description -n pbbcmd
+pbbcmd is a tool to communicate with pbbuttonsd. It is possible to
+send single commands to the daemon or ask it for certain information.
+
+%description -n pbbcmd -l pl
+pbbcmd to narzêdzie do komunikowania z pbbuttonsd. Umo¿liwia wysy³anie
+pojedynczych poleceñ do demona lub ¿±danie okre¶lonych informacji.
+
 %prep
 %setup -q
 cp %{SOURCE3} initreq.h
@@ -66,6 +81,7 @@ install -d $RPM_BUILD_ROOT%{_libdir}
 install -d $RPM_BUILD_ROOT%{_includedir}
 
 install src/pbbuttonsd $RPM_BUILD_ROOT%{_sbindir}
+install pbbcmd/pbbcmd $RPM_BUILD_ROOT%{_sbindir}
 install pbbuttonsd.conf $RPM_BUILD_ROOT%{_sysconfdir}
 install pbbuttonsd.1 $RPM_BUILD_ROOT%{_mandir}/man1
 install pbbuttonsd.conf.5 $RPM_BUILD_ROOT%{_mandir}/man5
@@ -103,7 +119,7 @@ fi
 %defattr(644,root,root,755)
 %doc AUTHORS BUGS ChangeLog INSTALL NEWS README TODO
 %attr(640,root,root) %config(noreplace) %verify(not size md5 mtime) %{_sysconfdir}/pbbuttonsd.conf
-%attr(755,root,root) %{_sbindir}/*
+%attr(755,root,root) %{_sbindir}/pbbuttonsd
 %attr(754,root,root) /etc/rc.d/init.d/pbbuttonsd
 %attr(640,root,root) %config(noreplace) %verify(not size md5 mtime) /etc/sysconfig/*
 %{_mandir}/man1/*
@@ -113,3 +129,6 @@ fi
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
 %{_includedir}/*
+
+%files -n pbbcmd
+%attr(755,root,root) %{_sbindir}/pbbcmd
