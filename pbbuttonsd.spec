@@ -13,6 +13,7 @@ BuildRequires:	autoconf
 Prereq:		rc-scripts
 Prereq:		/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+ExclusiveArch:	ppc
 
 %define		_sysconfdir	/etc
 %define		_bindir		%{_sbindir}
