@@ -32,7 +32,7 @@ sleep on command, etc.
 %description -l pl
 Pakiet zawiera demona pbbuttonsd, obs³uguj±cego klawisze specjalne
 (jasno¶æ wy¶wietlania, g³o¶no¶æ, wyciszanie, wyjmowanie CD).
-Jednocze¶nie ob³uguje niektóre funkcje zarz±dzania energi±, m.in.
+Jednocze¶nie obs³uguje niektóre funkcje zarz±dzania energi±, m.in.
 ostrzega o wy³adowaniu baterii, wygasza nieu¿ywany wy¶wietlacz,
 umo¿liwia usypianie komputera na komendê.
 
