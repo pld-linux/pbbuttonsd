@@ -4,18 +4,18 @@
 Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or TiBook
 Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
-Version:	0.5.2
+Version:	0.5.3
 Release:	1
 License:	GPL
 Group:		Daemons
-# http://www.cymes.de/members/joker/projects/pbbuttons/tar/%{name}-%{version}.tar.gz
-Source0:	pbbuttonsd-%{version}.tar.gz
+Source0:	http://www.cymes.de/members/joker/projects/pbbuttons/tar/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconf
 URL:		http://www.cymes.de/members/joker/projects/pbbuttons/pbbuttons.html
 BuildRequires:	autoconf
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
+Obsoletes:	pmud
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	ppc
 
@@ -61,12 +61,19 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_sbindir}
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},/etc/{rc.d/init.d,sysconfig},%{_mandir}/{man1,man5}}
 install -d $RPM_BUILD_ROOT%{_libdir}
+install -d $RPM_BUILD_ROOT%{_includedir}
 
 install src/pbbuttonsd $RPM_BUILD_ROOT%{_sbindir}
 install pbbuttonsd.conf $RPM_BUILD_ROOT%{_sysconfdir}
 install pbbuttonsd.1 $RPM_BUILD_ROOT%{_mandir}/man1
 install pbbuttonsd.conf.5 $RPM_BUILD_ROOT%{_mandir}/man5
 install libpbbipc/libpbb.a $RPM_BUILD_ROOT%{_libdir}
+install libpbbipc/pbb.h $RPM_BUILD_ROOT%{_includedir}
+install libpbbipc/pbberrno.h $RPM_BUILD_ROOT%{_includedir}
+install libpbbipc/pbbipc.h $RPM_BUILD_ROOT%{_includedir}
+install libpbbipc/pbbmisc.h $RPM_BUILD_ROOT%{_includedir}
+install libpbbipc/pbbtaglist.h $RPM_BUILD_ROOT%{_includedir}
+install libpbbipc/pbbtags.h $RPM_BUILD_ROOT%{_includedir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pbbuttonsd
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pbbuttonsd
@@ -103,4 +110,4 @@ fi
 %files lib
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
- 
+%{_includedir}/*
