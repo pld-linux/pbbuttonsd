@@ -5,7 +5,7 @@ Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or 
 Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
 Version:	0.5.6
-Release:	1
+Release:	2
 License:	GPL
 Group:		Daemons
 Source0:	http://www.cymes.de/members/joker/projects/pbbuttons/tar/%{name}-%{version}.tar.gz
@@ -13,13 +13,14 @@ Source0:	http://www.cymes.de/members/joker/projects/pbbuttons/tar/%{name}-%{vers
 Source1:	%{name}.init
 Source2:	%{name}.sysconf
 Source3:	%{name}-initreq.h
+Patch0:		%{name}-c++.patch
 URL:		http://www.cymes.de/members/joker/projects/pbbuttons/pbbuttons.html
 BuildRequires:	autoconf
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Obsoletes:	pmud
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 ExclusiveArch:	ppc
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 With the pbbuttonsd daemon, the keys for the display brightness, the
@@ -66,6 +67,8 @@ pojedynczych poleceñ do demona lub ¿±danie okre¶lonych informacji.
 
 %prep
 %setup -q
+%patch0 -p1
+
 cp %{SOURCE3} initreq.h
 
 %build
@@ -132,4 +135,5 @@ fi
 %{_includedir}/*
 
 %files -n pbbcmd
+%defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/pbbcmd
