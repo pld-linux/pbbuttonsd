@@ -34,9 +34,9 @@ ostrzega o wy³adowaniu baterii, wygasza nieu¿ywany wy¶wietlacz,
 umo¿liwia usypianie komputera na komendê.
 
 %package lib
-Summary:        Static libpbb.a library
-Summary(pl):    Statyczna biblioteka libpbb.a
-Group:          Development/Libraries
+Summary:	Static libpbb.a library
+Summary(pl):	Statyczna biblioteka libpbb.a
+Group:		Development/Libraries
 # it doesn't require base
 
 %description lib
@@ -99,7 +99,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS BUGS ChangeLog INSTALL NEWS README TODO 
+%doc AUTHORS BUGS ChangeLog INSTALL NEWS README TODO
 %attr(640,root,root) %config(noreplace) %verify(not size md5 mtime) %{_sysconfdir}/pbbuttonsd.conf
 %attr(755,root,root) %{_sbindir}/*
 %attr(754,root,root) /etc/rc.d/init.d/pbbuttonsd
