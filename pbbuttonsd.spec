@@ -12,7 +12,7 @@ Prereq:		rc-scripts
 Prereq:		/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_sysconfdir	/etc/ntp
+%define		_sysconfdir	/etc/pbbuttons
 %define		_bindir		%{_sbindir}
 
 %description
