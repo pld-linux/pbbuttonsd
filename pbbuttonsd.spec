@@ -5,7 +5,7 @@ Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or 
 Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
 Version:	0.6.5
-Release:	1
+Release:	2
 License:	GPL
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/pbbuttons/%{name}-%{version}.tar.gz
@@ -79,26 +79,17 @@ cp %{SOURCE3} initreq.h
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_sbindir}
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},/etc/{rc.d/init.d,sysconfig},%{_mandir}/{man1,man5}}
-install -d $RPM_BUILD_ROOT%{_libdir}
-install -d $RPM_BUILD_ROOT%{_includedir}
+install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,sysconfig},%{_sbindir}}
 
-install src/pbbuttonsd $RPM_BUILD_ROOT%{_sbindir}
-install pbbcmd/pbbcmd $RPM_BUILD_ROOT%{_sbindir}
-install pbbuttonsd.conf $RPM_BUILD_ROOT%{_sysconfdir}
-install pbbuttonsd.1 $RPM_BUILD_ROOT%{_mandir}/man1
-install pbbuttonsd.conf.5 $RPM_BUILD_ROOT%{_mandir}/man5
-install libpbbipc/libpbb.a $RPM_BUILD_ROOT%{_libdir}
-install libpbbipc/pbb.h $RPM_BUILD_ROOT%{_includedir}
-install libpbbipc/pbberrno.h $RPM_BUILD_ROOT%{_includedir}
-install libpbbipc/pbbipc.h $RPM_BUILD_ROOT%{_includedir}
-install libpbbipc/pbbmisc.h $RPM_BUILD_ROOT%{_includedir}
-install libpbbipc/pbbtaglist.h $RPM_BUILD_ROOT%{_includedir}
-install libpbbipc/pbbtags.h $RPM_BUILD_ROOT%{_includedir}
+%{__make} install DESTDIR=$RPM_BUILD_ROOT
+
+mv $RPM_BUILD_ROOT%{_bindir}/pbbuttonsd $RPM_BUILD_ROOT%{_sbindir}
+mv $RPM_BUILD_ROOT%{_bindir}/pbbcmd $RPM_BUILD_ROOT%{_sbindir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pbbuttonsd
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pbbuttonsd
+
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -119,13 +110,14 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del pbbuttonsd
 fi
 
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS BUGS ChangeLog INSTALL NEWS README TODO
+%doc AUTHORS BUGS ChangeLog NEWS README TODO
 %attr(640,root,root) %config(noreplace) %verify(not size md5 mtime) %{_sysconfdir}/pbbuttonsd.conf
 %attr(755,root,root) %{_sbindir}/pbbuttonsd
 %attr(754,root,root) /etc/rc.d/init.d/pbbuttonsd
 %attr(640,root,root) %config(noreplace) %verify(not size md5 mtime) /etc/sysconfig/*
+%{_sysconfdir}/power
 %{_mandir}/man1/*
 %{_mandir}/man5/*
 
