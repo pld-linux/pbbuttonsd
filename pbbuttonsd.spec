@@ -15,6 +15,7 @@ Source2:	%{name}.sysconf
 Source3:	%{name}-initreq.h
 Patch0:		%{name}-c++.patch
 URL:		http://www.cymes.de/members/joker/projects/pbbuttons/pbbuttons.html
+ExclusiveArch:	ppc
 BuildRequires:	autoconf
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
