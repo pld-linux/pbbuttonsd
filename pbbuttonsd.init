@@ -1,0 +1,61 @@
+#!/bin/sh
+# $Id$
+#
+# pbbuttonsd:	Sets up pbuttonsd 
+#
+# chkconfig:	2345 69 31
+# description:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or TiBook
+#
+# config:	/etc/sysconfig/pbbutonsd
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+# Get service config
+if [ -f /etc/sysconfig/pbbuttonsd ]; then
+	. /etc/sysconfig/pbbuttonsd
+fi
+
+function try_load
+{
+	_modprobe single evdev
+}
+
+# See how we were called.
+case "$1" in
+  start)
+	# Check if service is already running?
+	if [ ! -f /var/lock/subsys/pbbuttonsd ]; then
+		
+		# try load event module
+		try_load
+		msg_starting "pbbuttonsd"
+		daemon pbbuttonsd $PB_FLAGS
+		touch /var/lock/subsys/pbbuttonsd
+	else
+		msg_already_running "pbbuttonsd"
+		exit 1
+	fi
+	;;
+  stop)
+    	if [ -f /var/lock/subsys/pbbuttonsd ]; then
+		msg_stopping "pbbuttonsd"
+		killproc pbbuttonsd
+		rm -f /var/lock/subsys/pbbuttonsd
+	else
+		msg_not_running pbbuttonsd
+	fi
+	;;
+  status)
+	status pbbuttonsd
+	;;
+  restart|reload)
+	$0 stop
+	$0 start
+	;;
+  *)
+	msg_usage "$0 {start|stop|status|restart|reload}"
+	exit 1
+esac
+
+exit 0
