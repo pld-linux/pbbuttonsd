@@ -5,7 +5,7 @@ Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or 
 Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
 Version:	0.6.5
-Release:	2
+Release:	3
 License:	GPL
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/pbbuttons/%{name}-%{version}.tar.gz
@@ -86,6 +86,8 @@ install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,sysconfig},%{_sbindir}}
 mv $RPM_BUILD_ROOT%{_bindir}/pbbuttonsd $RPM_BUILD_ROOT%{_sbindir}
 mv $RPM_BUILD_ROOT%{_bindir}/pbbcmd $RPM_BUILD_ROOT%{_sbindir}
 
+cp scripts/README README-power
+
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pbbuttonsd
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pbbuttonsd
 
@@ -112,12 +114,22 @@ fi
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS BUGS ChangeLog NEWS README TODO
+%doc AUTHORS BUGS ChangeLog NEWS README TODO README-power
 %attr(640,root,root) %config(noreplace) %verify(not size md5 mtime) %{_sysconfdir}/pbbuttonsd.conf
 %attr(755,root,root) %{_sbindir}/pbbuttonsd
 %attr(754,root,root) /etc/rc.d/init.d/pbbuttonsd
+
+%dir /etc/power
+
+%attr(750,root,root) %config(noreplace) %verify(not size md5 mtime) /etc/power/pmcs-pbbuttonsd
+%attr(640,root,root) %config(noreplace) %verify(not size md5 mtime) /etc/power/pmcs-config
 %attr(640,root,root) %config(noreplace) %verify(not size md5 mtime) /etc/sysconfig/*
-%{_sysconfdir}/power
+
+/etc/power/scripts.d
+/etc/power/event.d
+/etc/power/pmcs-apmd
+/etc/power/pmcs-pmud
+
 %{_mandir}/man1/*
 %{_mandir}/man5/*
 
