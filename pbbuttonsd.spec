@@ -15,11 +15,11 @@ Source2:	%{name}.sysconf
 Source3:	%{name}-initreq.h
 Patch0:		%{name}-c++.patch
 URL:		http://www.cymes.de/members/joker/projects/pbbuttons/pbbuttons.html
-ExclusiveArch:	ppc
 BuildRequires:	autoconf
 PreReq:		rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Obsoletes:	pmud
+ExclusiveArch:	%{ix86} ppc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -54,8 +54,7 @@ w wersji statycznej.
 Summary:	Command line tool to communicate with pbbuttonsd
 Summary(pl):	Dzia³aj±ce z linii poleceñ narzêdzie do komunikowania z pbbuttonsd
 Group:		Deamons
-BuildRequires:	autoconf
-Requires:	pbbuttonsd
+Requires:	%{name} = %{version}-%{release}
 
 %description -n pbbcmd
 pbbcmd is a tool to communicate with pbbuttonsd. It is possible to
