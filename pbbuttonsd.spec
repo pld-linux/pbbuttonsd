@@ -37,7 +37,7 @@ umo¿liwia usypianie komputera na komendê.
 Summary:        Static libpbb.a library
 Summary(pl):    Statyczna biblioteka libpbb.a
 Group:          Development/Libraries
-Requires:       %{name} = %{version}
+# it doesn't require base
 
 %description lib
 This library is part of the daemon package pbbuttonsd and is
