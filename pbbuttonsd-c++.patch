@@ -1,5 +1,6 @@
---- pbbuttonsd-0.5.6/libpbbipc/pbb.h.orig	2003-10-02 16:21:54.000000000 +0200
-+++ pbbuttonsd-0.5.6/libpbbipc/pbb.h	2003-12-13 11:27:50.208345416 +0100
+diff -uNr pbbuttonsd-0.5.11-orig/libpbbipc/pbb.h pbbuttonsd-0.5.11/libpbbipc/pbb.h
+--- pbbuttonsd-0.5.11-orig/libpbbipc/pbb.h	2004-02-09 19:29:00.000000000 +0100
++++ pbbuttonsd-0.5.11/libpbbipc/pbb.h	2004-05-02 21:38:49.787623784 +0200
 @@ -32,6 +32,10 @@
  #define PBBDF_NONE	0   /* Flags for deamonise functions */
  #define PBBDF_FORCE	1
@@ -11,7 +12,7 @@
  /* --- private module data structure of libpbbuttons --- */
  struct libbase {
  	int serverport;
-@@ -63,4 +67,8 @@
+@@ -65,4 +69,8 @@
  /* this function should not be used in new programs */
  void detach_process (char *name);
  
@@ -20,8 +21,9 @@
 +#endif
 +
  #endif    /* INCLUDE_PBB_H */
---- pbbuttonsd-0.5.6/libpbbipc/pbberrno.h.orig	2003-11-04 06:00:31.000000000 +0100
-+++ pbbuttonsd-0.5.6/libpbbipc/pbberrno.h	2003-12-13 11:28:16.139403296 +0100
+diff -uNr pbbuttonsd-0.5.11-orig/libpbbipc/pbberrno.h pbbuttonsd-0.5.11/libpbbipc/pbberrno.h
+--- pbbuttonsd-0.5.11-orig/libpbbipc/pbberrno.h	2003-11-04 06:00:31.000000000 +0100
++++ pbbuttonsd-0.5.11/libpbbipc/pbberrno.h	2004-05-02 21:39:41.225803992 +0200
 @@ -37,7 +37,15 @@
  #define E_NOMEM		23
  #define E_NOSUPPORT	24
@@ -38,8 +40,9 @@
 +#endif
 +
  #endif    /* INCLUDE_PBBERRNO_H */
---- pbbuttonsd-0.5.6/libpbbipc/pbbipc.h.orig	2003-09-06 11:31:23.000000000 +0200
-+++ pbbuttonsd-0.5.6/libpbbipc/pbbipc.h	2003-12-13 11:28:44.010166296 +0100
+diff -uNr pbbuttonsd-0.5.11-orig/libpbbipc/pbbipc.h pbbuttonsd-0.5.11/libpbbipc/pbbipc.h
+--- pbbuttonsd-0.5.11-orig/libpbbipc/pbbipc.h	2003-09-06 11:31:23.000000000 +0200
++++ pbbuttonsd-0.5.11/libpbbipc/pbbipc.h	2004-05-02 21:40:31.731126016 +0200
 @@ -39,6 +39,10 @@
  #define WARNING				12		/* arg = taglist */
  #define READVALUE			13		/* arg = taglist */
@@ -60,9 +63,10 @@
 +#endif
 +
  #endif    /* INCLUDE_PBBIPC_H */
---- pbbuttonsd-0.5.6/libpbbipc/pbbmisc.h.orig	2003-09-24 13:58:20.000000000 +0200
-+++ pbbuttonsd-0.5.6/libpbbipc/pbbmisc.h	2003-12-13 11:29:32.511792928 +0100
-@@ -25,13 +25,21 @@
+diff -uNr pbbuttonsd-0.5.11-orig/libpbbipc/pbbmisc.h pbbuttonsd-0.5.11/libpbbipc/pbbmisc.h
+--- pbbuttonsd-0.5.11-orig/libpbbipc/pbbmisc.h	2004-02-09 19:48:09.000000000 +0100
++++ pbbuttonsd-0.5.11/libpbbipc/pbbmisc.h	2004-05-02 21:42:17.864991216 +0200
+@@ -24,6 +24,10 @@
  #define TYPE_CHARDEV	2
  #define TYPE_SYMLINK	3
  
@@ -72,24 +76,22 @@
 +
  /* prototypes */
  int check_devorfile(char *file, int type);
--int launch_program (char* template, ...);
-+int launch_program (char* templ, ...);
- int check_permissions (char *file, int uid, int mask);
- int get_owner (char *file);
- int get_permissions (char *file);
- int keydelayms (struct timeval *start, int value, int delay);
+ int launch_program (char* maskstr, ...);
+@@ -37,4 +41,8 @@
  void cleanup_buffer(char *buffer);
+ int axtoi (char *arg);
  
 +#ifdef __cplusplus
 +}
 +#endif
 +
  #endif    /* INCLUDE_PBBMISC_H */
---- pbbuttonsd-0.5.6/libpbbipc/pbbtaglist.h.orig	2003-09-30 13:31:27.000000000 +0200
-+++ pbbuttonsd-0.5.6/libpbbipc/pbbtaglist.h	2003-12-13 11:29:56.767105560 +0100
-@@ -21,6 +21,10 @@
- 
- #define MASK_ERROR		~FLG_ERROR
+diff -uNr pbbuttonsd-0.5.11-orig/libpbbipc/pbbtaglist.h pbbuttonsd-0.5.11/libpbbipc/pbbtaglist.h
+--- pbbuttonsd-0.5.11-orig/libpbbipc/pbbtaglist.h	2004-03-08 12:16:06.000000000 +0100
++++ pbbuttonsd-0.5.11/libpbbipc/pbbtaglist.h	2004-05-02 21:43:09.284174312 +0200
+@@ -28,6 +28,10 @@
+ #define SYSINFO_SLEEPSUPPORTED	0x04
+ #define SYSINFO_PMUDSUPPORT	0x08
  
 +#ifdef __cplusplus
 +extern "C" {
@@ -98,7 +100,7 @@
  typedef unsigned long tag_t;
  
  struct tagitem {
-@@ -37,4 +41,8 @@
+@@ -44,4 +48,8 @@
  void taglist_add (struct tagitem *taglist, tag_t tag, tag_t val);
  int taglist_count (struct tagitem *taglist);
  
