@@ -2,17 +2,19 @@ Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or 
 Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
 Version:	0.4.8
-Release:	1
+Release:	0.2
 License:	GPL
 Group:		Daemons
 Source0:	http://www.cymes.de/members/joker/projects/pbbuttons/tar/%{name}-%{version}.tar.gz
+Source1:	%{name}.init
+Source2:	%{name}.sysconf
 URL:		http://www.cymes.de/members/joker/projects/pbbuttons/pbbuttonsd.html
 BuildRequires:	autoconf
 Prereq:		rc-scripts
 Prereq:		/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_sysconfdir	/etc/pbbuttons
+%define		_sysconfdir	/etc
 %define		_bindir		%{_sbindir}
 
 %description
@@ -40,11 +42,16 @@ umo¿liwia usypianie komputera na komendê.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},/etc/{rc.d/init.d,sysconfig},%{_mandir}/man8}
+install -d $RPM_BUILD_ROOT/%{_sbindir}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},/etc/{rc.d/init.d,sysconfig},%{_mandir}/{man1,man5}}
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
+install src/pbbuttonsd $RPM_BUILD_ROOT/%{_sbindir}
+install pbbuttonsd.conf $RPM_BUILD_ROOT/%{_sysconfdir}
+install pbbuttonsd.1 $RPM_BUILD_ROOT/%{_mandir}/man1
+install pbbuttonsd.conf.5 $RPM_BUILD_ROOT/%{_mandir}/man5
 
-#gzip -9nf NEWS TODO 
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pbbuttonsd
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pbbuttonsd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -67,10 +74,10 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc conf/*.gz *.gz
-%attr(750,root,root) %dir %{_sysconfdir}
-%attr(640,root,root) %config(noreplace) %verify(not size md5 mtime) %{_sysconfdir}/*
+%doc AUTHORS BUGS ChangeLog INSTALL NEWS README TODO 
+%attr(640,root,root) %config(noreplace) %verify(not size md5 mtime) %{_sysconfdir}/pbbuttonsd.conf
 %attr(755,root,root) %{_sbindir}/*
 %attr(754,root,root) /etc/rc.d/init.d/pbbuttonsd
 %attr(640,root,root) %config %verify(not size md5 mtime) /etc/sysconfig/*
-%{_mandir}/man8/*
+%{_mandir}/man1/*
+%{_mandir}/man5/*
