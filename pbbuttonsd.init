@@ -23,7 +23,7 @@ case "$1" in
 	# Check if service is already running?
 	if [ ! -f /var/lock/subsys/pbbuttonsd ]; then
 		# try load event module
-		_modprobe single evdev
+		modprobe evdev > /dev/null 2>&1
 		msg_starting "pbbuttonsd"
 		daemon pbbuttonsd $PB_FLAGS
 		RETVAL=$?
