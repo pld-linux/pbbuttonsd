@@ -21,12 +21,12 @@ function try_load
 	_modprobe single evdev
 }
 
+
 # See how we were called.
 case "$1" in
   start)
 	# Check if service is already running?
 	if [ ! -f /var/lock/subsys/pbbuttonsd ]; then
-		
 		# try load event module
 		try_load
 		msg_starting "pbbuttonsd"
@@ -38,12 +38,13 @@ case "$1" in
 	fi
 	;;
   stop)
-    	if [ -f /var/lock/subsys/pbbuttonsd ]; then
+	if [ -f /var/lock/subsys/pbbuttonsd ]; then
 		msg_stopping "pbbuttonsd"
 		killproc pbbuttonsd
 		rm -f /var/lock/subsys/pbbuttonsd
 	else
 		msg_not_running pbbuttonsd
+		exit 1
 	fi
 	;;
   status)
@@ -54,7 +55,7 @@ case "$1" in
 	$0 start
 	;;
   *)
-	msg_usage "$0 {start|stop|status|restart|reload}"
+	msg_usage "$0 {start|stop|restart|reload|status}"
 	exit 1
 esac
 
