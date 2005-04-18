@@ -1,3 +1,7 @@
+#
+%bcond_without	alsa	# without alsa mixer support
+%bcond_without	oss	# without oss mixer support
+#
 Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or TiBook
 Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
@@ -12,6 +16,7 @@ Source2:	%{name}.sysconf
 Source3:	%{name}-initreq.h
 Patch0:		%{name}-c++.patch
 URL:		http://www.cymes.de/members/joker/projects/pbbuttons/pbbuttons.html
+%{?with_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	autoconf
 BuildRequires:	sed >= 4.0
 PreReq:		rc-scripts
@@ -70,7 +75,9 @@ cp %{SOURCE3} initreq.h
 
 %build
 %{__autoconf}
-%configure
+%configure \
+	--with%{!?with_alsa:out}-alsa \
+	--with%{!?with_oss:out}-oss
 
 %{__make}
 
