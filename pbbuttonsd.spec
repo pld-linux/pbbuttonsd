@@ -1,6 +1,7 @@
 #
-%bcond_without	alsa	# without alsa mixer support
-%bcond_without	oss	# without oss mixer support
+# Conditional build
+%bcond_without	alsa	# without ALSA mixer support
+%bcond_without	oss	# without OSS mixer support
 #
 Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or TiBook
 Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook i TiBook
