@@ -7,7 +7,7 @@ Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or 
 Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
 Version:	0.6.8
-Release:	1
+Release:	2
 License:	GPL
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/pbbuttons/%{name}-%{version}.tar.gz
