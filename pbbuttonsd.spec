@@ -6,12 +6,12 @@
 Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or TiBook
 Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
-Version:	0.6.8
-Release:	2
+Version:	0.6.10
+Release:	1
 License:	GPL
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/pbbuttons/%{name}-%{version}.tar.gz
-# Source0-md5:	70bf7577f2f0d665be6858c464ac8678
+# Source0-md5:	4508ffb858a2d0897fedd3632908368d
 Source1:	%{name}.init
 Source2:	%{name}.sysconf
 Source3:	%{name}-initreq.h
@@ -71,12 +71,15 @@ pojedynczych poleceñ do demona lub ¿±danie okre¶lonych informacji.
 %prep
 %setup -q
 %patch0 -p1
-
+sed '/MixerInitDelay/s/no/yes/' \
+	-i %{name}.conf
 cp %{SOURCE3} initreq.h
 
 %build
 %{__autoconf}
+CFLAGS="-I. %{rpmcflags}"; export CFLAGS
 %configure \
+	--without-pmud \
 	--with%{!?with_alsa:out}-alsa \
 	--with%{!?with_oss:out}-oss
 
