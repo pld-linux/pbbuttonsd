@@ -1,39 +1,44 @@
 diff -uNr pbbuttonsd-0.5.11-orig/libpbbipc/pbb.h pbbuttonsd-0.5.11/libpbbipc/pbb.h
 --- pbbuttonsd-0.5.11-orig/libpbbipc/pbb.h	2004-02-09 19:29:00.000000000 +0100
 +++ pbbuttonsd-0.5.11/libpbbipc/pbb.h	2004-05-02 21:38:49.787623784 +0200
-@@ -32,6 +32,10 @@
- #define PBBDF_NONE	0   /* Flags for deamonise functions */
- #define PBBDF_FORCE	1
+@@ -29,6 +29,10 @@
+ #define PBBDF_NONE     0   /* Flags for deamonise functions */
+ #define PBBDF_FORCE    1
  
 +#ifdef __cplusplus
 +extern "C" {
 +#endif
 +
+ enum {PBBDS_NONE, PBBDS_PREPARE, PBBDS_CHILD, PBBDS_PARENT};
+ 
  /* --- private module data structure of libpbbuttons --- */
- struct libbase {
- 	int serverport;
-@@ -65,4 +69,8 @@
- /* this function should not be used in new programs */
- void detach_process (char *name);
+@@ -66,5 +70,9 @@
+ int prepare_daemon (char *name, char *pidfile, int flags);
+ int create_daemon ();
  
 +#ifdef __cplusplus
 +}
 +#endif
 +
  #endif    /* INCLUDE_PBB_H */
+ 
 diff -uNr pbbuttonsd-0.5.11-orig/libpbbipc/pbberrno.h pbbuttonsd-0.5.11/libpbbipc/pbberrno.h
 --- pbbuttonsd-0.5.11-orig/libpbbipc/pbberrno.h	2003-11-04 06:00:31.000000000 +0100
 +++ pbbuttonsd-0.5.11/libpbbipc/pbberrno.h	2004-05-02 21:39:41.225803992 +0200
-@@ -37,7 +37,15 @@
- #define E_NOMEM		23
- #define E_NOSUPPORT	24
+@@ -45,6 +45,10 @@
+ #define E_OPTEXISTS    28
+ #define E_NODIR                29
  
 +#ifdef __cplusplus
 +extern "C" {
 +#endif
 +
+ enum pbberrtype { PBB_ERR, PBB_WARN, PBB_INFO };
+ 
  /* prototypes */
- void print_error(char *msg, ...);
+@@ -52,4 +56,8 @@
+ void print_msg (enum pbberrtype type, char *msg, ...);
+ void print_message (enum pbberrtype type, char *msg, va_list args);
  
 +#ifdef __cplusplus
 +}
