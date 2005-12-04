@@ -20,7 +20,7 @@ URL:		http://www.cymes.de/members/joker/projects/pbbuttons/pbbuttons.html
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	autoconf
 BuildRequires:	sed >= 4.0
-PreReq:		rc-scripts
+Requires:	rc-scripts
 Requires(post,preun):	/sbin/chkconfig
 Obsoletes:	pmud
 ExclusiveArch:	%{ix86} ppc
@@ -47,14 +47,14 @@ Group:		Development/Libraries
 # it doesn't require base
 
 %description lib
-This library is part of the daemon package pbbuttonsd and is
-available as static library only.
+This library is part of the daemon package pbbuttonsd and is available
+as static library only.
 
 %description lib -l pl
-Ta biblioteka jest czê¶ci± pakietu pbbuttonsd i jest dostêpna tylko
-w wersji statycznej.
+Ta biblioteka jest czê¶ci± pakietu pbbuttonsd i jest dostêpna tylko w
+wersji statycznej.
 
-%package -n pbbcmd 
+%package -n pbbcmd
 Summary:	Command line tool to communicate with pbbuttonsd
 Summary(pl):	Dzia³aj±ce z linii poleceñ narzêdzie do komunikowania z pbbuttonsd
 Group:		Daemons
@@ -89,7 +89,8 @@ CFLAGS="-I. %{rpmcflags}"; export CFLAGS
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,sysconfig},%{_sbindir}}
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install \
+	DESTDIR=$RPM_BUILD_ROOT
 
 mv $RPM_BUILD_ROOT%{_bindir}/pbbuttonsd $RPM_BUILD_ROOT%{_sbindir}
 mv $RPM_BUILD_ROOT%{_bindir}/pbbcmd $RPM_BUILD_ROOT%{_sbindir}
@@ -152,13 +153,13 @@ fi
 %doc AUTHORS BUGS ChangeLog NEWS README TODO README-power scripts-skeleton
 %attr(755,root,root) %{_sbindir}/pbbuttonsd
 %attr(754,root,root) /etc/rc.d/init.d/pbbuttonsd
-%attr(640,root,root) %config(noreplace) %verify(not size md5 mtime) /etc/sysconfig/*
-%attr(640,root,root) %config(noreplace) %verify(not size md5 mtime) %{_sysconfdir}/pbbuttonsd.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/*
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pbbuttonsd.conf
 
 %dir /etc/power
 
 %attr(750,root,root) /etc/power/pmcs-pbbuttonsd
-%attr(640,root,root) %config(noreplace) %verify(not size md5 mtime) /etc/power/pmcs-config
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/power/pmcs-config
 
 %dir /etc/power/scripts.d
 %exclude /etc/power/scripts.d/skeleton
