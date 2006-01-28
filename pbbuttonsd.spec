@@ -6,19 +6,24 @@
 Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or TiBook
 Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
-Version:	0.7.1
+Version:	0.7.4
 Release:	1
 License:	GPL
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/pbbuttons/%{name}-%{version}.tar.gz
-# Source0-md5:	aa8421806a5875ba5c46341a1f2b57cb
+# Source0-md5:	c67669fe0d9ce4115265970094ad0b97
 Source1:	%{name}.init
 Source2:	%{name}.sysconf
 Source3:	%{name}-initreq.h
 Patch0:		%{name}-c++.patch
-URL:		http://www.cymes.de/members/joker/projects/pbbuttons/pbbuttons.html
+URL:		http://pbbuttons.berlios.de/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	gettext
+BuildRequires:	glib2-devel
+BuildRequires:	libstdc++-devel
+BuildRequires:	libtool
 BuildRequires:	sed >= 4.0
 Requires:	rc-scripts
 Requires(post,preun):	/sbin/chkconfig
@@ -76,10 +81,15 @@ sed '/MixerInitDelay/s/no/yes/' \
 cp %{SOURCE3} initreq.h
 
 %build
-%{__autoconf}
-CFLAGS="-I. %{rpmcflags}"; export CFLAGS
+%{__gettextize}
+%{__libtoolize}
+%{__aclocal}  
+%{__autoconf} 
+%{__autoheader}
+%{__automake}
 %configure \
-	--without-pmud \
+	--without-pmud	\
+	--with-ibam	\
 	--with%{!?with_alsa:out}-alsa \
 	--with%{!?with_oss:out}-oss
 
@@ -155,6 +165,8 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/pbbuttonsd
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/*
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pbbuttonsd.conf
+%dir %{_localstatedir}/lib/ibam
+%dir %{_localstatedir}/lib/pbbuttons
 
 %dir /etc/power
 
