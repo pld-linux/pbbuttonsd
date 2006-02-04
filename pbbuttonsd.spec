@@ -81,6 +81,7 @@ sed '/MixerInitDelay/s/no/yes/' \
 cp %{SOURCE3} initreq.h
 
 %build
+%{!?with_alsa:echo "AC_DEFUN([AM_PATH_ALSA],[])" >> acinclude.m4}
 %{__gettextize}
 %{__libtoolize}
 %{__aclocal}  
