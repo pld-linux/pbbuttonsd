@@ -24,9 +24,10 @@ BuildRequires:	gettext
 BuildRequires:	glib2-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
+BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	sed >= 4.0
-Requires:	rc-scripts
 Requires(post,preun):	/sbin/chkconfig
+Requires:	rc-scripts
 Obsoletes:	pmud
 ExclusiveArch:	%{ix86} ppc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -84,8 +85,8 @@ cp %{SOURCE3} initreq.h
 %{!?with_alsa:echo "AC_DEFUN([AM_PATH_ALSA],[])" >> acinclude.m4}
 %{__gettextize}
 %{__libtoolize}
-%{__aclocal}  
-%{__autoconf} 
+%{__aclocal}
+%{__autoconf}
 %{__autoheader}
 %{__automake}
 %configure \
@@ -113,7 +114,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pbbuttonsd
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pbbuttonsd
 
 for script in $RPM_BUILD_ROOT/etc/power/scripts.d/*; do
-    sed -i 's#^. pmcs-config#. /etc/power/pmcs-config#' $script
+	sed -i 's#^. pmcs-config#. /etc/power/pmcs-config#' $script
 done
 
 #
@@ -132,10 +133,10 @@ find $RPM_BUILD_ROOT/etc/power -type f -exec sed -i \
 
 # check if all run-parts invoked with "--arg" are converted
 for f in $(find $RPM_BUILD_ROOT/etc/power -type f); do
-    if grep -q -- --arg $f; then
-        echo Not all run-parts script invocations are converted to PLD standard
-        exit 1
-    fi
+	if grep -q -- --arg $f; then
+		echo Not all run-parts script invocations are converted to PLD standard
+		exit 1
+	fi
 done
 
 %find_lang %{name}
@@ -145,17 +146,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add pbbuttonsd
-if [ -f /var/lock/subsys/pbbuttonsd ]; then
-	/etc/rc.d/init.d/pbbuttonsd restart >&2
-else
-	echo "Run \"/etc/rc.d/init.d/pbbuttonsd start\" to start pbbuttonsd daemon."
-fi
+%service pbbuttonsd restart "pbbuttonsd daemon"
 
 %preun
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/pbbuttonsd ]; then
-		/etc/rc.d/init.d/pbbuttonsd stop >&2
-	fi
+	%service pbbuttonsd stop
 	/sbin/chkconfig --del pbbuttonsd
 fi
 
