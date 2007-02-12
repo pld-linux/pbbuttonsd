@@ -4,7 +4,7 @@
 %bcond_without	oss	# without OSS mixer support
 #
 Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or TiBook
-Summary(pl):	Demon obs³uguj±cy klawisze specjalne w Apple iBook, Powerbook i TiBook
+Summary(pl.UTF-8):   Demon obsÅ‚ugujÄ…cy klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
 Version:	0.7.7
 Release:	1
@@ -39,16 +39,16 @@ do their job as expected. The daemon also do some power management
 tasks including low battery warnings, dimming the display if idle,
 sleep on command, etc.
 
-%description -l pl
-Pakiet zawiera demona pbbuttonsd, obs³uguj±cego klawisze specjalne
-(jasno¶æ wy¶wietlania, g³o¶no¶æ, wyciszanie, wyjmowanie CD).
-Jednocze¶nie obs³uguje niektóre funkcje zarz±dzania energi±, m.in.
-ostrzega o wy³adowaniu baterii, wygasza nieu¿ywany wy¶wietlacz,
-umo¿liwia usypianie komputera na komendê.
+%description -l pl.UTF-8
+Pakiet zawiera demona pbbuttonsd, obsÅ‚ugujÄ…cego klawisze specjalne
+(jasnoÅ›Ä‡ wyÅ›wietlania, gÅ‚oÅ›noÅ›Ä‡, wyciszanie, wyjmowanie CD).
+JednoczeÅ›nie obsÅ‚uguje niektÃ³re funkcje zarzÄ…dzania energiÄ…, m.in.
+ostrzega o wyÅ‚adowaniu baterii, wygasza nieuÅ¼ywany wyÅ›wietlacz,
+umoÅ¼liwia usypianie komputera na komendÄ™.
 
 %package lib
 Summary:	Static libpbb.a library
-Summary(pl):	Statyczna biblioteka libpbb.a
+Summary(pl.UTF-8):   Statyczna biblioteka libpbb.a
 Group:		Development/Libraries
 # it doesn't require base
 
@@ -56,13 +56,13 @@ Group:		Development/Libraries
 This library is part of the daemon package pbbuttonsd and is available
 as static library only.
 
-%description lib -l pl
-Ta biblioteka jest czê¶ci± pakietu pbbuttonsd i jest dostêpna tylko w
+%description lib -l pl.UTF-8
+Ta biblioteka jest czÄ™Å›ciÄ… pakietu pbbuttonsd i jest dostÄ™pna tylko w
 wersji statycznej.
 
 %package -n pbbcmd
 Summary:	Command line tool to communicate with pbbuttonsd
-Summary(pl):	Dzia³aj±ce z linii poleceñ narzêdzie do komunikowania z pbbuttonsd
+Summary(pl.UTF-8):   DziaÅ‚ajÄ…ce z linii poleceÅ„ narzÄ™dzie do komunikowania z pbbuttonsd
 Group:		Daemons
 Requires:	%{name} = %{version}-%{release}
 
@@ -70,9 +70,9 @@ Requires:	%{name} = %{version}-%{release}
 pbbcmd is a tool to communicate with pbbuttonsd. It is possible to
 send single commands to the daemon or ask it for certain information.
 
-%description -n pbbcmd -l pl
-pbbcmd to narzêdzie do komunikowania z pbbuttonsd. Umo¿liwia wysy³anie
-pojedynczych poleceñ do demona lub ¿±danie okre¶lonych informacji.
+%description -n pbbcmd -l pl.UTF-8
+pbbcmd to narzÄ™dzie do komunikowania z pbbuttonsd. UmoÅ¼liwia wysyÅ‚anie
+pojedynczych poleceÅ„ do demona lub Å¼Ä…danie okreÅ›lonych informacji.
 
 %prep
 %setup -q
