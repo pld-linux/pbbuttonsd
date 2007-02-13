@@ -4,7 +4,7 @@
 %bcond_without	oss	# without OSS mixer support
 #
 Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or TiBook
-Summary(pl.UTF-8):   Demon obsługujący klawisze specjalne w Apple iBook, Powerbook i TiBook
+Summary(pl.UTF-8):	Demon obsługujący klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
 Version:	0.7.7
 Release:	1
@@ -48,7 +48,7 @@ umożliwia usypianie komputera na komendę.
 
 %package lib
 Summary:	Static libpbb.a library
-Summary(pl.UTF-8):   Statyczna biblioteka libpbb.a
+Summary(pl.UTF-8):	Statyczna biblioteka libpbb.a
 Group:		Development/Libraries
 # it doesn't require base
 
@@ -62,7 +62,7 @@ wersji statycznej.
 
 %package -n pbbcmd
 Summary:	Command line tool to communicate with pbbuttonsd
-Summary(pl.UTF-8):   Działające z linii poleceń narzędzie do komunikowania z pbbuttonsd
+Summary(pl.UTF-8):	Działające z linii poleceń narzędzie do komunikowania z pbbuttonsd
 Group:		Daemons
 Requires:	%{name} = %{version}-%{release}
 
