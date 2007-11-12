@@ -6,16 +6,16 @@
 Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or TiBook
 Summary(pl.UTF-8):	Demon obsługujący klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
-Version:	0.7.7
-Release:	2
+Version:	0.8.1
+Release:	0.1
 License:	GPL
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/pbbuttons/%{name}-%{version}.tar.gz
-# Source0-md5:	0061a791068b1267ceb7078a0929f06f
+# Source0-md5:	5addde05fe291bee974443b531a3a3e5
 Source1:	%{name}.init
 Source2:	%{name}.sysconf
-Source3:	%{name}-initreq.h
 Patch0:		%{name}-c++.patch
+Patch1:		%{name}-ac.patch
 URL:		http://pbbuttons.berlios.de/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	autoconf
@@ -77,9 +77,7 @@ pojedynczych poleceń do demona lub żądanie określonych informacji.
 %prep
 %setup -q
 %patch0 -p1
-sed '/MixerInitDelay/s/no/yes/' \
-	-i %{name}.conf
-cp %{SOURCE3} initreq.h
+%patch1 -p1
 
 %build
 %{!?with_alsa:echo "AC_DEFUN([AM_PATH_ALSA],[])" >> acinclude.m4}
@@ -91,7 +89,7 @@ cp %{SOURCE3} initreq.h
 %{__automake}
 %configure \
 	--without-pmud	\
-	--with-ibam	\
+	--with-ibam     \
 	--with%{!?with_alsa:out}-alsa \
 	--with%{!?with_oss:out}-oss
 
@@ -160,7 +158,7 @@ fi
 %attr(755,root,root) %{_sbindir}/pbbuttonsd
 %attr(754,root,root) /etc/rc.d/init.d/pbbuttonsd
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/*
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pbbuttonsd.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pbbuttonsd.cnf
 %dir %{_localstatedir}/lib/ibam
 %dir %{_localstatedir}/lib/pbbuttons
 
