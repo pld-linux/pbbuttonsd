@@ -16,7 +16,7 @@
 -		PB_OBJECTS+=" driver_backlight_x1600.$OBJEXT driver_backlight_gma950.$OBJEXT module_acpi.$OBJEXT module_imac.$OBJEXT"
 -		PB_LIBS+=" -lpci -lsmbios"
 +		PB_OBJECTS="$PB_OBJECTS driver_backlight_x1600.$OBJEXT driver_backlight_gma950.$OBJEXT module_acpi.$OBJEXT module_imac.$OBJEXT"
-+		PB_LIBS="$PB_LIBS -lpci -lsmbios"
++		PB_LIBS="$PB_LIBS -lz -lpci -lsmbios"
  		LCD_FADINGSPEED="448"
  		LCD_AUTOADJMODE="linear"
  		LCD_AUTOADJPARMBAT="0,10,80,30"
