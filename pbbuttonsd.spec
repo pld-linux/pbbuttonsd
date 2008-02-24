@@ -7,7 +7,7 @@ Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or 
 Summary(pl.UTF-8):	Demon obsługujący klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
 Version:	0.8.1a
-Release:	3
+Release:	4
 License:	GPL
 Group:		Daemons
 Source0:	http://dl.sourceforge.net/pbbuttons/%{name}-%{version}.tar.gz
@@ -22,6 +22,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext
 BuildRequires:	glib2-devel
+BuildRequires:	libsmbios-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 BuildRequires:	rpmbuild(macros) >= 1.268
@@ -88,8 +89,8 @@ pojedynczych poleceń do demona lub żądanie określonych informacji.
 %{__autoheader}
 %{__automake}
 %configure \
-	--without-pmud	\
-	--with-ibam     \
+	--without-pmud \
+	--with-ibam \
 	--with%{!?with_alsa:out}-alsa \
 	--with%{!?with_oss:out}-oss
 
@@ -132,7 +133,7 @@ find $RPM_BUILD_ROOT/etc/power -type f -exec sed -i \
 # check if all run-parts invoked with "--arg" are converted
 for f in $(find $RPM_BUILD_ROOT/etc/power -type f); do
 	if grep -q -- --arg $f; then
-		echo Not all run-parts script invocations are converted to PLD standard
+		: Not all run-parts script invocations are converted to PLD standard
 		exit 1
 	fi
 done
