@@ -20,7 +20,7 @@ URL:		http://pbbuttons.berlios.de/
 %{?with_alsa:BuildRequires:	alsa-lib-devel}
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	gettext
+BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel
 %ifarch %{ix86}
 BuildRequires:	libsmbios-devel
