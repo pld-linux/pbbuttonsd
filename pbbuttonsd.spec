@@ -7,29 +7,35 @@ Summary:	Daemon that handle the special hotkeys of an Apple iBook, Powerbook or 
 Summary(pl.UTF-8):	Demon obsługujący klawisze specjalne w Apple iBook, Powerbook i TiBook
 Name:		pbbuttonsd
 Version:	0.8.1a
-Release:	5
-License:	GPL
+Release:	6
+License:	GPL v2+
 Group:		Daemons
-Source0:	http://dl.sourceforge.net/pbbuttons/%{name}-%{version}.tar.gz
+Source0:	http://downloads.sourceforge.net/pbbuttons/%{name}-%{version}.tar.gz
 # Source0-md5:	0a6a756d4b4f3ae90c906ed305725100
 Source1:	%{name}.init
 Source2:	%{name}.sysconf
 Patch0:		%{name}-c++.patch
 Patch1:		%{name}-ac.patch
+Patch2:		%{name}-libsmbios.patch
+Patch3:		%{name}-format.patch
 URL:		http://pbbuttons.berlios.de/
-%{?with_alsa:BuildRequires:	alsa-lib-devel}
+%{?with_alsa:BuildRequires:	alsa-lib-devel >= 1.0.0}
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel
-%ifarch %{ix86}
-BuildRequires:	libsmbios-devel
-%endif
+BuildRequires:	gettext-tools >= 0.17
+BuildRequires:	glib2-devel >= 1:2.6.0
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtool
+BuildRequires:	libtool >= 2:1.5
+BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	sed >= 4.0
+%ifarch %{ix86}
+BuildRequires:	libsmbios-devel >= 2.2.7
+BuildRequires:	pciutils-devel
+BuildRequires:	zlib-devel
+%endif
 Requires(post,preun):	/sbin/chkconfig
+Requires:	glib2 >= 1:2.6.0
 Requires:	rc-scripts
 Obsoletes:	pmud
 ExclusiveArch:	%{ix86} ppc
@@ -81,6 +87,8 @@ pojedynczych poleceń do demona lub żądanie określonych informacji.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 
 %build
 %{!?with_alsa:echo "AC_DEFUN([AM_PATH_ALSA],[])" >> acinclude.m4}
@@ -93,8 +101,8 @@ pojedynczych poleceń do demona lub żądanie określonych informacji.
 %configure \
 	--without-pmud \
 	--with-ibam \
-	--with%{!?with_alsa:out}-alsa \
-	--with%{!?with_oss:out}-oss
+	--with-alsa%{!?with_alsa:=no} \
+	--with-oss%{!?with_oss:=no}
 
 %{__make}
 
@@ -105,17 +113,17 @@ install -d $RPM_BUILD_ROOT{/etc/{rc.d/init.d,sysconfig},%{_sbindir}}
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-mv $RPM_BUILD_ROOT%{_bindir}/pbbuttonsd $RPM_BUILD_ROOT%{_sbindir}
-mv $RPM_BUILD_ROOT%{_bindir}/pbbcmd $RPM_BUILD_ROOT%{_sbindir}
+%{__mv} $RPM_BUILD_ROOT%{_bindir}/pbbuttonsd $RPM_BUILD_ROOT%{_sbindir}
+%{__mv} $RPM_BUILD_ROOT%{_bindir}/pbbcmd $RPM_BUILD_ROOT%{_sbindir}
 
-cp scripts/README README-power
-cp scripts/scripts.d/skeleton scripts-skeleton
+cp -p scripts/README README-power
+cp -p scripts/scripts.d/skeleton scripts-skeleton
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/pbbuttonsd
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pbbuttonsd
 
 for script in $RPM_BUILD_ROOT/etc/power/scripts.d/*; do
-	sed -i 's#^. pmcs-config#. /etc/power/pmcs-config#' $script
+	%{__sed} -i 's#^. pmcs-config#. /etc/power/pmcs-config#' $script
 done
 
 #
@@ -157,33 +165,33 @@ fi
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS BUGS ChangeLog NEWS README TODO README-power scripts-skeleton
+%doc AUTHORS BUGS ChangeLog README TODO README-power scripts-skeleton
 %attr(755,root,root) %{_sbindir}/pbbuttonsd
 %attr(754,root,root) /etc/rc.d/init.d/pbbuttonsd
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/*
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/pbbuttonsd
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/pbbuttonsd.cnf
 %dir %{_localstatedir}/lib/ibam
 %dir %{_localstatedir}/lib/pbbuttons
 
 %dir /etc/power
-
-%attr(750,root,root) /etc/power/pmcs-pbbuttonsd
+%attr(754,root,root) /etc/power/pmcs-apmd
+%attr(754,root,root) /etc/power/pmcs-pbbuttonsd
+%attr(754,root,root) /etc/power/pmcs-pmud
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/power/pmcs-config
 
 %dir /etc/power/scripts.d
 %exclude /etc/power/scripts.d/skeleton
-%attr(750,root,root) /etc/power/scripts.d/*
+%attr(754,root,root) /etc/power/scripts.d/*
 /etc/power/event.d
-/etc/power/pmcs-apmd
-/etc/power/pmcs-pmud
 
-%{_mandir}/man1/*
-%{_mandir}/man5/*
+%{_mandir}/man1/pbbcmd.1*
+%{_mandir}/man1/pbbuttonsd.1*
+%{_mandir}/man5/pbbuttonsd.cnf.5*
 
 %files lib
 %defattr(644,root,root,755)
-%{_libdir}/lib*.a
-%{_includedir}/*
+%{_libdir}/libpbb.a
+%{_includedir}/pbb*.h
 
 %files -n pbbcmd
 %defattr(644,root,root,755)

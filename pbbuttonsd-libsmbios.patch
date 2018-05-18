@@ -1,0 +1,47 @@
+--- pbbuttonsd-0.8.1a/configure.in.orig	2018-05-18 20:25:33.655553067 +0200
++++ pbbuttonsd-0.8.1a/configure.in	2018-05-18 20:50:07.408869572 +0200
+@@ -56,13 +56,13 @@
+ 		ac_laptop="Apple MacBook (Intel based)"
+ 		ac_macbook=no
+ 		AC_DEFINE_UNQUOTED(SYS_MACBOOK, "", [machine to build the package for])
+-		AC_CHECK_HEADERS([smbios/SystemInfo.h],
++		AC_CHECK_HEADERS([smbios_c/system_info.h],
+ 			AC_DEFINE_UNQUOTED(WITH_SMBIOS, 1, [SMBIOS available]),
+ 			AC_MSG_ERROR([SMBios library not available. Please install development files for libsmbios.]), [/* dummy */])
+ 		AC_CHECK_HEADERS([pci/pci.h sys/io.h], ac_macbook=yes,
+ 			AC_MSG_ERROR([Please install development files for libpci and direct I/O.]), [/* dummy */])
+ 		PB_OBJECTS="$PB_OBJECTS driver_backlight_x1600.$OBJEXT driver_backlight_gma950.$OBJEXT module_acpi.$OBJEXT module_imac.$OBJEXT"
+-		PB_LIBS="$PB_LIBS -lpci -lz -lsmbios"
++		PB_LIBS="$PB_LIBS -lpci -lz -lsmbios_c"
+ 		LCD_FADINGSPEED="448"
+ 		LCD_AUTOADJMODE="linear"
+ 		LCD_AUTOADJPARMBAT="0,10,80,30"
+--- pbbuttonsd-0.8.1a/src/module_imac.c.orig	2007-07-01 13:05:22.000000000 +0200
++++ pbbuttonsd-0.8.1a/src/module_imac.c	2018-05-18 21:06:36.608858280 +0200
+@@ -26,7 +26,7 @@
+ #include <string.h>
+ #include <sys/io.h>
+ #ifdef WITH_SMBIOS
+-#  include <smbios/SystemInfo.h>
++#  include <smbios_c/system_info.h>
+ #endif
+ 
+ #include <pbb.h>
+@@ -202,7 +202,7 @@
+ 
+ 	type = ver = rev = 0;
+ 
+-	if ((prop = SMBIOSGetSystemName())) {
++	if ((prop = sysinfo_get_system_name())) {
+ 
+ 		if (strncmp("MacBookPro", prop, 10) == 0) {
+ 			type = TYPE_MACBOOKPRO;
+@@ -218,7 +218,7 @@
+ 			}
+ 		}
+ 
+-	    SMBIOSFreeMemory(prop);
++	    sysinfo_string_free(prop);
+ 	}
+ 	return CMTYPE(type,ver,rev);
+ #endif

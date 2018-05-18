@@ -1,0 +1,15 @@
+--- pbbuttonsd-0.8.1a/libpbbipc/pbb_errno.c.orig	2007-07-01 13:05:04.000000000 +0200
++++ pbbuttonsd-0.8.1a/libpbbipc/pbb_errno.c	2018-05-18 20:56:55.865531577 +0200
+@@ -108,9 +108,9 @@
+  */
+ 	if (base->daemon != PBBDS_NONE) {
+ 		if (type == PBB_ERR && base->daemon != PBBDS_CHILD)
+-			fprintf(stderr, inptr);
+-		syslog(level, inptr);
++			fputs(inptr, stderr);
++		syslog(level, "%s", inptr);
+ 	} else
+-		fprintf(stderr, inptr);
++		fputs(inptr, stderr);
+ }
+ 
